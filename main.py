@@ -49,6 +49,28 @@ cur.executemany(INSERT_SQL, characters_data)
 cur.execute("SELECT id, name, species FROM characters LIMIT 10;")
 print(cur.fetchall())
 
+
+
+
+import matplotlib.pyplot as plt
+
+cur.execute("SELECT species, COUNT(*) FROM characters GROUP BY species;")
+rows = cur.fetchall()
+
+species = [r[0] for r in rows]
+counts = [r[1] for r in rows]
+
+plt.bar(species, counts)
+plt.title("Número de personajes por especie")
+plt.xlabel("Especie")
+plt.ylabel("Cantidad")
+plt.xticks(rotation=45, ha="right")
+plt.tight_layout()
+plt.savefig("grafico.png")
+
+print("[OK] Gráfico guardado como grafico.png")
+
+
 connection.commit()
 cur.close()
 connection.close()
